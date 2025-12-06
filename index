@@ -1,0 +1,1856 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>FoodSafety Navigator – HACCP · BVP · FAVV · IFS Logistics</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #020617;
+      --panel: #020617;
+      --panel-alt: #0b1220;
+      --accent: #22c55e;
+      --accent-soft: rgba(34,197,94,0.16);
+      --accent-strong: rgba(34,197,94,0.26);
+      --border: #1e293b;
+      --text: #e5e7eb;
+      --text-soft: #9ca3af;
+      --danger: #f97373;
+      --radius-lg: 1rem;
+      --radius-xl: 1.6rem;
+      --shadow-soft: 0 22px 55px rgba(15,23,42,0.9);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #111827 0, #020617 50%, #000 100%);
+      color: var(--text);
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    .app {
+      max-width: 1120px;
+      margin: 1.75rem auto 2.75rem;
+      padding: 0 1.25rem;
+    }
+
+    header.app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    @media (max-width: 720px) {
+      header.app-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 1.2rem;
+      background: radial-gradient(circle at 30% 20%, #bbf7d0, #22c55e 45%, #16a34a 70%, #14532d 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #022c22;
+      font-weight: 800;
+      font-size: 1.1rem;
+      box-shadow: 0 16px 36px rgba(16,185,129,0.55);
+    }
+
+    .brand-text h1 {
+      margin: 0;
+      font-size: 1.4rem;
+    }
+
+    .brand-text small {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--text-soft);
+      margin-top: 0.1rem;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      background: rgba(34,197,94,0.08);
+      padding: 0.25rem 0.8rem;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+      color: var(--accent);
+    }
+
+    .status-pill span.dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4ade80;
+      box-shadow: 0 0 10px rgba(74,222,128,0.9);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      gap: 1.25rem;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .panel {
+      background:
+        radial-gradient(circle at top left, rgba(34,197,94,0.08), transparent 65%),
+        linear-gradient(to bottom right, rgba(15,23,42,0.98), rgba(15,23,42,1));
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(148,163,184,0.3);
+      padding: 1rem 1.1rem;
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(18px);
+    }
+
+    .panel h2 {
+      margin: 0 0 0.55rem;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .panel h2 .icon {
+      font-size: 1.15rem;
+    }
+
+    .panel small {
+      color: var(--text-soft);
+      font-size: 0.78rem;
+    }
+
+    .sidebar-title {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-soft);
+      margin: 0.1rem 0 0.35rem;
+    }
+
+    .nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .nav-btn {
+      width: 100%;
+      border-radius: 0.9rem;
+      border: 1px solid rgba(30,64,175,0.5);
+      background: rgba(15,23,42,0.96);
+      padding: 0.45rem 0.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.4rem;
+      cursor: pointer;
+      font-size: 0.8rem;
+      color: var(--text-soft);
+      transition: background 0.15s ease-out,
+                  border 0.15s ease-out,
+                  color 0.15s ease-out,
+                  transform 0.05s ease-out,
+                  box-shadow 0.15s ease-out;
+    }
+
+    .nav-btn-left {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .nav-btn-icon {
+      font-size: 0.95rem;
+    }
+
+    .nav-btn-meta {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .nav-btn.active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      color: var(--accent);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 30px rgba(15,23,42,1);
+    }
+
+    .nav-btn:hover {
+      border-color: rgba(59,130,246,0.9);
+    }
+
+    .sidebar-stats {
+      margin-top: 0.4rem;
+      border-radius: 0.9rem;
+      border: 1px dashed rgba(148,163,184,0.6);
+      background: rgba(15,23,42,0.96);
+      padding: 0.55rem 0.6rem;
+      font-size: 0.78rem;
+      color: var(--text-soft);
+    }
+
+    .sidebar-stats strong {
+      color: #bbf7d0;
+    }
+
+    .view {
+      display: none;
+    }
+    .view.active {
+      display: block;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 1rem;
+      margin-top: 0.7rem;
+    }
+
+    @media (max-width: 900px) {
+      .two-col {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .section-title {
+      font-size: 0.92rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .muted {
+      font-size: 0.8rem;
+      color: var(--text-soft);
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      background: var(--accent-soft);
+      color: var(--accent);
+      padding: 0.38rem 0.9rem;
+      font-size: 0.78rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      cursor: pointer;
+      transition: background 0.15s ease-out,
+                  box-shadow 0.15s ease-out,
+                  transform 0.05s ease-out;
+    }
+
+    .btn:hover {
+      background: var(--accent-strong);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 30px rgba(15,23,42,0.95);
+    }
+
+    .btn.secondary {
+      border-color: rgba(148,163,184,0.7);
+      background: rgba(15,23,42,0.98);
+      color: var(--text-soft);
+    }
+
+    .btn.danger {
+      border-color: rgba(248,113,113,0.9);
+      background: rgba(239,68,68,0.12);
+      color: #fecaca;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="password"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 0.46rem 0.65rem;
+      border-radius: 0.7rem;
+      border: 1px solid rgba(148,163,184,0.4);
+      background: rgba(15,23,42,0.98);
+      color: var(--text);
+      font-size: 0.85rem;
+      outline: none;
+      transition: border 0.15s ease-out,
+                  box-shadow 0.15s ease-out,
+                  background 0.15s ease-out;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(34,197,94,0.4);
+      background: rgba(15,23,42,1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 70px;
+    }
+
+    .field-group {
+      margin-bottom: 0.7rem;
+    }
+
+    .field-label {
+      font-size: 0.8rem;
+      margin-bottom: 0.25rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .field-label span.meta {
+      font-size: 0.7rem;
+      color: var(--text-soft);
+    }
+
+    .hint {
+      font-size: 0.75rem;
+      color: var(--text-soft);
+      margin-top: 0.18rem;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.6);
+      padding: 0.12rem 0.5rem;
+      font-size: 0.7rem;
+      color: var(--text-soft);
+    }
+
+    .tag.topic {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(34,197,94,0.12);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    .badge-level {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.7);
+      padding: 0.12rem 0.5rem;
+      font-size: 0.7rem;
+      color: var(--text-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .empty {
+      font-size: 0.8rem;
+      color: var(--text-soft);
+      margin-top: 0.35rem;
+    }
+
+    .error {
+      font-size: 0.8rem;
+      color: var(--danger);
+      margin-top: 0.35rem;
+    }
+
+    .lesson-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .lesson-card {
+      border-radius: 0.9rem;
+      border: 1px solid rgba(51,65,85,0.9);
+      background: rgba(15,23,42,0.98);
+      padding: 0.55rem 0.65rem;
+      cursor: pointer;
+      transition: background 0.15s ease-out,
+                  border 0.15s ease-out,
+                  transform 0.05s ease-out;
+    }
+
+    .lesson-card:hover {
+      border-color: rgba(59,130,246,0.9);
+      transform: translateY(-1px);
+    }
+
+    .lesson-card.active {
+      border-color: var(--accent);
+      background:
+        radial-gradient(circle at top left, rgba(34,197,94,0.16), transparent 65%),
+        rgba(15,23,42,1);
+    }
+
+    .lesson-card-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.12rem;
+    }
+
+    .lesson-card-meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      font-size: 0.75rem;
+      color: var(--text-soft);
+    }
+
+    .progress-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      border: 1px solid rgba(148,163,184,0.5);
+    }
+
+    .progress-dot.partial {
+      border-color: #eab308;
+      background: #eab308;
+    }
+
+    .progress-dot.done {
+      border-color: var(--accent);
+      background: var(--accent);
+    }
+
+    .step-check {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.45rem;
+      margin-bottom: 0.33rem;
+      font-size: 0.83rem;
+    }
+
+    .step-check input[type="checkbox"] {
+      margin-top: 0.18rem;
+      accent-color: var(--accent);
+    }
+
+    .search-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .search-row input[type="text"] {
+      flex: 1;
+    }
+
+    .chip {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.6);
+      padding: 0.18rem 0.55rem;
+      font-size: 0.74rem;
+      cursor: pointer;
+      background: rgba(15,23,42,0.96);
+      color: var(--text-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      transition: border 0.15s ease-out,
+                  background 0.15s ease-out,
+                  color 0.15s ease-out;
+    }
+
+    .chip.active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .results-meta {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      margin-bottom: 0.4rem;
+    }
+
+    .result-card {
+      border-radius: 0.9rem;
+      border: 1px solid rgba(51,65,85,0.9);
+      background: rgba(15,23,42,1);
+      padding: 0.5rem 0.6rem;
+      margin-bottom: 0.4rem;
+      font-size: 0.8rem;
+    }
+
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.4rem;
+      align-items: center;
+      margin-bottom: 0.1rem;
+    }
+
+    .result-title {
+      font-size: 0.84rem;
+      font-weight: 600;
+    }
+
+    .result-title a {
+      text-decoration: none;
+      color: var(--accent);
+    }
+
+    .result-title a:hover {
+      text-decoration: underline;
+    }
+
+    .result-url {
+      font-size: 0.7rem;
+      color: #6ee7b7;
+      margin-bottom: 0.12rem;
+      word-break: break-all;
+    }
+
+    .result-snippet {
+      font-size: 0.78rem;
+      color: var(--text-soft);
+    }
+
+    .result-badge {
+      font-size: 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.7);
+      padding: 0.1rem 0.45rem;
+      color: var(--text-soft);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+    }
+
+    th, td {
+      padding: 0.4rem 0.45rem;
+      border-bottom: 1px solid rgba(51,65,85,0.95);
+    }
+
+    th {
+      text-align: left;
+      font-weight: 500;
+      color: var(--text-soft);
+      background: rgba(15,23,42,0.98);
+      position: sticky;
+      top: 0;
+    }
+
+    .text-right {
+      text-align: right;
+    }
+
+    .pill-status {
+      font-size: 0.7rem;
+      padding: 0.08rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.7);
+    }
+
+    .pill-status.done {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(34,197,94,0.14);
+    }
+
+    .pill-status.open {
+      border-color: #fb923c;
+      color: #fed7aa;
+      background: rgba(249,115,22,0.18);
+    }
+
+    .footnote {
+      margin-top: 0.9rem;
+      font-size: 0.7rem;
+      color: var(--text-soft);
+      max-width: 820px;
+    }
+
+    .lesson-theory h3,
+    .lesson-theory h4 {
+      margin: 0.35rem 0 0.25rem;
+      font-size: 0.9rem;
+    }
+
+    .lesson-theory p {
+      margin: 0.1rem 0 0.35rem;
+      font-size: 0.83rem;
+      color: var(--text-soft);
+    }
+
+    .lesson-theory ul {
+      margin: 0.1rem 0 0.35rem 1.15rem;
+      padding: 0;
+      font-size: 0.83rem;
+      color: var(--text-soft);
+    }
+  </style>
+</head>
+
+<body>
+<div class="app">
+  <header class="app-header" aria-label="Kop">
+    <div class="brand">
+      <div class="brand-logo" aria-hidden="true">FS</div>
+      <div class="brand-text">
+        <h1 id="brandTitle">FoodSafety Navigator</h1>
+        <small id="brandSubtitle">HACCP · BVP · FAVV · IFS Logistics – praktijk &amp; compliance</small>
+      </div>
+    </div>
+    <div class="status-pill" aria-label="Status">
+      <span class="dot"></span>
+      Live kennis &amp; opleiding
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="panel" aria-label="Navigatie">
+      <h2><span class="icon">📌</span> Navigatie</h2>
+
+      <div class="sidebar-title">Hoofdmodules</div>
+      <nav class="nav-list">
+        <button class="nav-btn active" data-view="view-dashboard">
+          <div class="nav-btn-left">
+            <span class="nav-btn-icon">📊</span>
+            <div>
+              <div>Dashboard</div>
+              <div class="nav-btn-meta">Overzicht &amp; voortgang</div>
+            </div>
+          </div>
+        </button>
+
+        <button class="nav-btn" data-view="view-learn">
+          <div class="nav-btn-left">
+            <span class="nav-btn-icon">🎓</span>
+            <div>
+              <div>HACCP-leerpad</div>
+              <div class="nav-btn-meta">Theorie &amp; stappen</div>
+            </div>
+          </div>
+        </button>
+
+        <button class="nav-btn" data-view="view-search">
+          <div class="nav-btn-left">
+            <span class="nav-btn-icon">🔍</span>
+            <div>
+              <div>Kennis &amp; zoekmachine</div>
+              <div class="nav-btn-meta">HACCP · BVP · FAVV · IFS</div>
+            </div>
+          </div>
+        </button>
+
+        <button class="nav-btn" data-view="view-training">
+          <div class="nav-btn-left">
+            <span class="nav-btn-icon">✅</span>
+            <div>
+              <div>Training &amp; registraties</div>
+              <div class="nav-btn-meta">Audit-ready logging</div>
+            </div>
+          </div>
+        </button>
+
+        <button class="nav-btn" data-view="view-settings">
+          <div class="nav-btn-left">
+            <span class="nav-btn-icon">⚙️</span>
+            <div>
+              <div>Instellingen</div>
+              <div class="nav-btn-meta">Branding &amp; API</div>
+            </div>
+          </div>
+        </button>
+      </nav>
+
+      <div class="sidebar-title">Vandaag</div>
+      <div class="sidebar-stats" id="sidebarStats">Laden...</div>
+    </aside>
+
+    <section aria-label="Hoofdinhoud">
+      <section class="panel view active" id="view-dashboard">
+        <h2><span class="icon">📊</span> Dashboard</h2>
+        <small>Overzicht van je HACCP-leerpad, trainingen en zoekactiviteit.</small>
+
+        <div class="two-col">
+          <div>
+            <div class="section-title">Voortgang HACCP-leerpad</div>
+            <p class="muted" id="dashLessons">-</p>
+            <button class="btn secondary" id="btnGotoLearn">Ga naar HACCP-leerpad</button>
+          </div>
+          <div>
+            <div class="section-title">Training &amp; zoekactiviteit</div>
+            <p class="muted" id="dashTraining">-</p>
+            <p class="muted" id="dashSearch">-</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel view" id="view-learn">
+        <h2><span class="icon">🎓</span> HACCP-leerpad</h2>
+        <small>Volledige theorie in gewone mensentaal + afvinkbare acties. Zonder dat je zelf moet gaan zoeken.</small>
+
+        <div class="two-col">
+          <div>
+            <div class="lesson-list" id="lessonList"></div>
+          </div>
+          <div id="lessonDetail">
+            <p class="muted">
+              Kies links een les. Bij elke les krijg je eerst de theorie (HACCP uitgelegd),
+              daarna concrete acties die je kan afvinken. De zoekmachine is enkel voor extra verdieping.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel view" id="view-search">
+        <h2><span class="icon">🔍</span> Kennis &amp; zoekmachine</h2>
+        <small>Interne kennisbank (HACCP, BVP, FAVV, IFS Logistics) + optionele live webresultaten.</small>
+
+        <div style="margin-top:0.7rem;">
+          <div class="search-row">
+            <input id="searchInput" type="text"
+                   placeholder="Zoek bv. 'HACCP gevarenanalyse', 'FAVV traceerbaarheid', 'IFS hoofdstukken'…">
+            <button class="btn secondary" id="searchBtn">Zoek</button>
+          </div>
+
+          <div class="search-row">
+            <span class="chip active" data-topic="ALL">Alle domeinen</span>
+            <span class="chip" data-topic="HACCP">HACCP</span>
+            <span class="chip" data-topic="BVP">BVP / logistiek</span>
+            <span class="chip" data-topic="FAVV">FAVV / wetgeving</span>
+            <span class="chip" data-topic="IFS">IFS Logistics</span>
+          </div>
+
+          <div class="results-meta">
+            <span id="searchStatus">Nog geen zoekopdracht.</span>
+            <span id="searchMeta">Filter: alle domeinen</span>
+          </div>
+
+          <div class="two-col">
+            <div>
+              <div class="section-title">Interne kennisbank</div>
+              <div id="internalResults"></div>
+            </div>
+            <div>
+              <div class="section-title">Live webresultaten</div>
+              <div id="webResults"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel view" id="view-training">
+        <h2><span class="icon">✅</span> Training &amp; registraties</h2>
+        <small>Log opleidingen, toolboxen en uitleg voor medewerkers. Alles blijft lokaal bewaard.</small>
+
+        <div style="margin-top:0.7rem;">
+          <form id="trainingForm">
+            <div class="two-col">
+              <div>
+                <div class="field-group">
+                  <label class="field-label" for="trEmployee">
+                    Medewerker
+                    <span class="meta">verplicht</span>
+                  </label>
+                  <input id="trEmployee" type="text" required placeholder="Naam medewerker">
+                </div>
+
+                <div class="field-group">
+                  <label class="field-label" for="trTopic">
+                    Domein
+                    <span class="meta">HACCP / BVP / FAVV / IFS</span>
+                  </label>
+                  <select id="trTopic" required>
+                    <option value="">Kies een domein…</option>
+                    <option value="HACCP">HACCP</option>
+                    <option value="BVP">BVP – logistieke best practices</option>
+                    <option value="FAVV">FAVV / wetgeving</option>
+                    <option value="IFS">IFS Logistics / kwaliteitsmanagement</option>
+                  </select>
+                </div>
+
+                <div class="field-group">
+                  <label class="field-label" for="trDate">
+                    Datum
+                    <span class="meta">verplicht</span>
+                  </label>
+                  <input id="trDate" type="date" required>
+                </div>
+              </div>
+
+              <div>
+                <div class="field-group">
+                  <label class="field-label" for="trType">
+                    Type / context
+                    <span class="meta">optioneel</span>
+                  </label>
+                  <input id="trType" type="text"
+                         placeholder="bv. onboarding, toolbox, refresh, auditvoorbereiding">
+                </div>
+
+                <div class="field-group">
+                  <label class="field-label" for="trNotes">
+                    Inhoud / bijzonderheden
+                    <span class="meta">korte samenvatting</span>
+                  </label>
+                  <textarea id="trNotes"
+                            placeholder="Welke onderwerpen? Belangrijke afspraken of risico’s?"></textarea>
+                </div>
+
+                <div class="field-group">
+                  <label class="field-label" for="trStatus">Status</label>
+                  <select id="trStatus">
+                    <option value="afgerond">Afgerond</option>
+                    <option value="open">Nog te vervolledigen</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex; justify-content:flex-end; gap:0.6rem; margin-top:0.3rem;">
+              <button type="button" class="btn secondary" id="btnExportTraining">
+                📤 Exporteer registraties (JSON)
+              </button>
+              <button type="submit" class="btn">💾 Opslaan</button>
+            </div>
+          </form>
+
+          <div id="trainingTable" style="margin-top:0.7rem;"></div>
+        </div>
+      </section>
+
+      <section class="panel view" id="view-settings">
+        <h2><span class="icon">⚙️</span> Instellingen</h2>
+        <small>Branding + Google Custom Search API, voor commerciële uitrol.</small>
+
+        <div class="two-col" style="margin-top:0.7rem;">
+          <div>
+            <div class="section-title">Branding</div>
+
+            <div class="field-group">
+              <label class="field-label" for="setBrandName">Toolnaam</label>
+              <input id="setBrandName" type="text" placeholder="FoodSafety Navigator">
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="setBrandSub">Ondertitel</label>
+              <input id="setBrandSub" type="text"
+                     placeholder="HACCP · BVP · FAVV · IFS Logistics – praktijk & compliance">
+            </div>
+
+            <button class="btn secondary" id="btnSaveBrand">Branding opslaan</button>
+          </div>
+
+          <div>
+            <div class="section-title">Google Custom Search API</div>
+
+            <div class="field-group">
+              <label class="field-label" for="setApiKey">
+                API key
+                <span class="meta">client-side</span>
+              </label>
+              <input id="setApiKey" type="password" placeholder="AIza…">
+              <p class="hint">
+                Maak een API key via “Google Custom Search JSON API”. Beperk de key best via IP/domein.
+              </p>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="setCx">
+                Custom Search Engine ID (cx)
+              </label>
+              <input id="setCx" type="text" placeholder="CSE-ID">
+              <p class="hint">
+                Voeg in je CSE o.a. <code>favv-afsca.be</code>, <code>ifs-certification.com</code>,
+                <code>ec.europa.eu</code>, … toe.
+              </p>
+            </div>
+
+            <div style="display:flex; flex-wrap:wrap; gap:0.6rem; margin-top:0.3rem;">
+              <button class="btn secondary" id="btnSaveApi">API-instellingen opslaan</button>
+              <button class="btn danger" id="btnClearAll">⚠️ Wis alle lokale data</button>
+            </div>
+          </div>
+        </div>
+
+        <p class="footnote">
+          Belangrijk: de teksten over IFS Logistics en FAVV in deze tool zijn
+          <strong>samenvattingen en interpretaties</strong>, geen officiële norm- of wetsteksten.
+          Voor audits en certificatie moet je altijd de officiële IFS-norm en wetgeving raadplegen.
+        </p>
+      </section>
+    </section>
+  </main>
+</div>
+
+<script>
+  const STORAGE_PROGRESS   = "fsn_progress_v3";
+  const STORAGE_TRAINING   = "fsn_training_v3";
+  const STORAGE_SETTINGS   = "fsn_settings_v3";
+  const STORAGE_SEARCHSTAT = "fsn_searchstats_v3";
+
+  function loadJson(key, fallback) {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    } catch (e) {
+      console.warn("loadJson error", key, e);
+      return fallback;
+    }
+  }
+
+  function saveJson(key, value) {
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch (e) {
+      console.warn("saveJson error", key, e);
+    }
+  }
+
+  /******** HACCP-LESSEN – THEORIE + PRAKTIJK ********/
+
+  const LESSONS = [
+    {
+      id: "haccp-1",
+      title: "Wat is HACCP in gewone mensentaal?",
+      duration: "5–10 min",
+      level: "Basis",
+      topic: "HACCP",
+      theoryHtml: `
+        <div class="lesson-theory">
+          <h3>Wat betekent HACCP écht?</h3>
+          <p>
+            HACCP staat voor <strong>Hazard Analysis and Critical Control Points</strong>.
+            In gewone mensentaal: het is een <strong>systematische manier om voedselveiligheidsrisico’s te herkennen en te beheersen</strong>
+            in elke stap van jouw proces.
+          </p>
+          <h4>Voor een logistiek of magazijnomgeving betekent dat:</h4>
+          <ul>
+            <li>Je denkt na over welke gevaren kunnen optreden bij ontvangst, opslag, orderpicking en transport.</li>
+            <li>Je bepaalt welke stappen kritisch zijn: als het daar misgaat, kan de consument ziek worden.</li>
+            <li>Je legt vast welke controles nodig zijn (wat, hoe vaak, door wie) en wat je doet bij een afwijking.</li>
+          </ul>
+          <p>
+            HACCP is dus <strong>geen boek op de kast</strong>, maar een manier om te werken. 
+            Het doel is simpel: zorgen dat wat jouw magazijn verlaat, <strong>veilig is voor consumptie</strong>.
+          </p>
+          <h4>Voorbeeld: diepvriesmagazijn</h4>
+          <p>
+            In een diepvriesmagazijn is temperatuur een typisch kritiek punt. 
+            Als de temperatuur te hoog wordt, kan product onveilig worden. Daarom:
+          </p>
+          <ul>
+            <li>Is er een duidelijke grenswaarde (bijv. producttemperatuur ≤ -18 °C).</li>
+            <li>Wordt de temperatuur automatisch of regelmatig gemeten.</li>
+            <li>Zijn er vastgelegde acties als de temperatuur te hoog is (blokkeren, onderzoeken, beslissen).</li>
+          </ul>
+          <p>
+            Dat is een <strong>kritisch controlepunt (CCP)</strong> in de praktijk.
+          </p>
+          <h4>Jouw rol als werkgeversafgevaardigde</h4>
+          <ul>
+            <li>Je begrijpt waar de grootste risico’s zitten in jouw magazijn.</li>
+            <li>Je kan mee het gesprek voeren over veiligheid, werkmethodes en opleidingen.</li>
+            <li>Je helpt ervoor zorgen dat procedures geen papieren oefening zijn, maar echt toegepast worden.</li>
+          </ul>
+        </div>
+      `,
+      practiceIntro: "Gebruik deze stappen om HACCP concreet te maken in jouw eigen omgeving:",
+      steps: [
+        "Schrijf in één zin wat HACCP voor jouw magazijn betekent (bv. ‘Een systeem om de risico’s op onveilige voeding te beheersen in ontvangst, opslag en verzending.’).",
+        "Som de activiteiten van jouw magazijn op: ontvangst, opslag, interne verplaatsing, orderpicking, cross-docking, transport…",
+        "Noteer welke functie(s) op jouw site verantwoordelijkheid dragen voor voedselveiligheid (bv. QA, site manager, shiftleader).",
+        "Maak een lijst met minstens 5 concrete risico’s in jouw magazijn (temperatuur, beschadigde verpakking, kruisbesmetting, ongedierte, verkeerde product-combinaties, allergenen…)."
+      ]
+    },
+    {
+      id: "haccp-2",
+      title: "De 7 HACCP-principes toegepast op magazijn",
+      duration: "10–15 min",
+      level: "Basis",
+      topic: "HACCP",
+      theoryHtml: `
+        <div class="lesson-theory">
+          <h3>De 7 HACCP-principes in het kort</h3>
+          <p>De officiële principes klinken theoretisch, maar in een magazijn zijn ze goed toepasbaar:</p>
+          <ol>
+            <li><strong>Gevarenanalyse</strong> – Welke gevaren zijn er in elke processtap?</li>
+            <li><strong>Kritische controlepunten (CCP’s) bepalen</strong> – Welke stappen zijn echt cruciaal?</li>
+            <li><strong>Kritische grenswaarden vastleggen</strong> – Wanneer is het nog oké en wanneer is het fout?</li>
+            <li><strong>Monitoring van CCP’s</strong> – Hoe volg je op dat de grenswaarden gerespecteerd worden?</li>
+            <li><strong>Correctieve acties</strong> – Wat doe je als er een afwijking is?</li>
+            <li><strong>Verificatie</strong> – Hoe controleer je dat jouw systeem werkt (audits, testen, reviews)?</li>
+            <li><strong>Documentatie &amp; registraties</strong> – Hoe bewijs je wat je doet?</li>
+          </ol>
+          <h4>Toegepast op een logistieke flow</h4>
+          <p>Een typische flow in logistiek kan zijn:</p>
+          <ul>
+            <li>Ontvangst van goederen</li>
+            <li>Opslag (droog, gekoeld, diepvries)</li>
+            <li>Interne beweging of overslag</li>
+            <li>Orderpicking</li>
+            <li>Outbound / verlading</li>
+            <li>Transport</li>
+          </ul>
+          <p>Bij elke stap vraag je je af:</p>
+          <ul>
+            <li>Welke gevaren kunnen hier optreden (microbiologisch, chemisch, fysisch, allergenen)?</li>
+            <li>Welke controles voer ik nu al uit? Zijn die voldoende?</li>
+          </ul>
+          <p>
+            In een magazijn zijn gevaren vaak gekoppeld aan <strong>temperatuur</strong>, 
+            <strong>integriteit van verpakking</strong>, <strong>verkeerde opslag (allergenen)</strong> en 
+            <strong>besmetting door omgeving</strong> (ongedierte, vuil, glas, metaal…).
+          </p>
+        </div>
+      `,
+      practiceIntro: "Breng de 7 principes rechtstreeks in kaart voor jouw magazijn:",
+      steps: [
+        "Teken op papier (of digitaal) jouw procesflow: ontvangst → opslag → interne beweging → orderpicking → outbound → transport.",
+        "Noteer per processtap minstens 1 microbiologisch, 1 fysisch en 1 allergeen- of chemisch gevaar.",
+        "Markeer de processtappen waar de impact op de consument het grootste is (typisch: temperatuur en integriteit verpakking).",
+        "Schrijf per ‘kritische’ stap welke controle nu al bestaat (temperatuurregistratie, visuele controle, scan, checklists…).",
+        "Noteer per stap of je voldoende registraties hebt om later te kunnen aantonen wat er gebeurde (audit-proof)."
+      ]
+    },
+    {
+      id: "haccp-3",
+      title: "Gevarenanalyse: praktisch en snel",
+      duration: "10–15 min",
+      level: "Gevorderd",
+      topic: "HACCP",
+      theoryHtml: `
+        <div class="lesson-theory">
+          <h3>Wat is een gevarenanalyse?</h3>
+          <p>
+            Een gevarenanalyse is een <strong>gestructureerd overzicht van alle mogelijke gevaren</strong> 
+            in jouw proces, met een inschatting van <strong>kans</strong> en <strong>ernst</strong>.
+          </p>
+          <p>Typische gevaren in magazijnen/logistiek:</p>
+          <ul>
+            <li><strong>Microbiologisch</strong> – temperatuurproblemen, te lange doorlooptijd buiten koeling.</li>
+            <li><strong>Fysisch</strong> – glas, metaal, hout, plasticstukken, beschadigde verpakking.</li>
+            <li><strong>Chemisch</strong> – reinigingsproducten, smeermiddelen, verkeerde contactmaterialen.</li>
+            <li><strong>Allergenen</strong> – vermenging van allergenenvrije producten met allergenen (door opslag of picking).</li>
+          </ul>
+          <h4>Kans × ernst (L/M/H)</h4>
+          <p>
+            Je hoeft geen complexe matrices te bouwen. Een eenvoudige schaal volstaat:
+            <strong>Laag / Middel / Hoog</strong> voor zowel kans als ernst.
+          </p>
+          <ul>
+            <li>Ernst hoog = consument kan ernstig ziek worden of kwetsbare groepen lopen groot risico.</li>
+            <li>Kans hoog = het gebeurt snel of vaak, tenzij je stevig beheerst.</li>
+          </ul>
+          <p>
+            Gevaren die een combinatie van <strong>hoge ernst</strong> en minstens <strong>middelmatige kans</strong> hebben,
+            vragen een sterke beheersing en kunnen leiden tot CCP’s of strengere BVP’s.
+          </p>
+        </div>
+      `,
+      practiceIntro: "Maak nu je gevarenanalyse zonder dat het een papieren monster wordt:",
+      steps: [
+        "Gebruik je procesflow en noteer per stap de mogelijke gevaren (micro, fysisch, chemisch, allergenen).",
+        "Geef elk gevaar een score voor kans (L/M/H) en ernst (L/M/H). Gebruik je gezond verstand en ervaring uit de praktijk.",
+        "Noteer per gevaar welke maatregelen al bestaan (temperatuurmonitoring, hygiëne-instructies, gescheiden opslag, palletinspectie…).",
+        "Markeer gevaren met hoge ernst en minstens middelmatige kans als ‘kritisch’. Hier moet je systeem bijzonder sterk zijn.",
+        "Kies één kritisch gevaar en noteer een concrete verbeteractie (bv. extra controle, betere visuele instructies, opleiding van medewerkers)."
+      ]
+    },
+    {
+      id: "haccp-4",
+      title: "CCP’s en grenswaarden in de praktijk",
+      duration: "7–10 min",
+      level: "Gevorderd",
+      topic: "HACCP",
+      theoryHtml: `
+        <div class="lesson-theory">
+          <h3>Wat is een CCP in logistiek?</h3>
+          <p>
+            Een <strong>kritisch controlepunt (CCP)</strong> is een stap waar een gevaar 
+            <strong>moet</strong> worden gecontroleerd om onveilig product te voorkomen, en waar geen
+            latere stap dat nog kan herstellen.
+          </p>
+          <p>In logistiek zijn typische CCP’s:</p>
+          <ul>
+            <li>Temperatuurbeheersing (gekoeld/diepvries).</li>
+            <li>Integriteit van primaire verpakking (geen breuk/lekkage).</li>
+          </ul>
+          <h4>Kritische grenswaarden</h4>
+          <p>
+            Een kritische grenswaarde is de duidelijke scheiding tussen ‘in orde’ en ‘niet in orde’. 
+            Bijvoorbeeld:
+          </p>
+          <ul>
+            <li>Producttemperatuur diepvries ≤ -18 °C. Alles erboven is afwijking.</li>
+            <li>Geen enkel product met beschadigde primaire verpakking wordt aanvaard.</li>
+          </ul>
+          <p>
+            Belangrijk: een grenswaarde moet concreet, meetbaar en ondubbelzinnig zijn. 
+            “Zo koud mogelijk” is geen goede grenswaarde.
+          </p>
+        </div>
+      `,
+      practiceIntro: "Definieer nu jouw eigen CCP’s en grenswaarden:",
+      steps: [
+        "Kies maximaal twee CCP’s die voor jouw site écht relevant zijn (bv. diepvries-temperatuur, integriteit verpakking bij ontvangst).",
+        "Schrijf per CCP de kritische grenswaarden op (getal, eenheid, visuele criteria).",
+        "Bepaal wie welke controle doet (functie) en met welke frequentie (continu, per levering, per shift…).",
+        "Beschrijf stapsgewijs wat er gebeurt bij afwijking (hoe blokkeren, wie verwittigen, wie beslist over vrijgave of vernietiging).",
+        "Controleer of er goede registraties bestaan van zowel de controles als de afwijkingen en acties."
+      ]
+    },
+    {
+      id: "haccp-5",
+      title: "HACCP koppelen aan BVP’s, FAVV en IFS Logistics",
+      duration: "10–15 min",
+      level: "Gevorderd",
+      topic: "HACCP",
+      theoryHtml: `
+        <div class="lesson-theory">
+          <h3>HACCP als ruggengraat van je systeem</h3>
+          <p>
+            Je HACCP-plan is de <strong>basis</strong> voor:
+          </p>
+          <ul>
+            <li>Wettelijke verplichtingen (FAVV: traceerbaarheid, hygiëne, temperatuur…).</li>
+            <li>Certificatienormen (zoals IFS Logistics).</li>
+            <li>Interne best practices (BVP’s) in je magazijn.</li>
+          </ul>
+          <h4>FAVV en HACCP</h4>
+          <p>
+            FAVV verwacht dat je gevaren in kaart brengt en beheerst, met nadruk op:
+          </p>
+          <ul>
+            <li>Traceerbaarheid (1 stap terug/1 stap vooruit).</li>
+            <li>Hygiëne en ongediertebestrijding.</li>
+            <li>Temperatuurbeheersing en koudeketen.</li>
+          </ul>
+          <p>Dat sluit rechtstreeks aan bij je HACCP-gevarenanalyse en CCP’s.</p>
+          <h4>IFS Logistics en HACCP</h4>
+          <p>
+            IFS Logistics vereist een gedocumenteerd voedselveiligheids- en kwaliteitsmanagementsysteem 
+            op basis van HACCP-principes, aangevuld met eisen rond:
+          </p>
+          <ul>
+            <li>Managementverantwoordelijkheid en beleid.</li>
+            <li>Documentcontrole, interne audits, corrigerende/preventieve maatregelen.</li>
+            <li>Personeel, opleiding en hygiëne.</li>
+            <li>Procesbeheer, productbescherming, food defense.</li>
+          </ul>
+          <p>
+            Je HACCP-plan vormt de inhoudelijke kern; de norm voegt structuur, verantwoordelijkheden en bewijsvoering toe.
+          </p>
+        </div>
+      `,
+      practiceIntro: "Maak de koppeling tussen jouw HACCP, FAVV, IFS en BVP’s concreet:",
+      steps: [
+        "Maak een eenvoudige tabel: kolommen = processtappen; rijen = HACCP-gevaren, FAVV-eisen, IFS-paragrafen, interne BVP’s.",
+        "Vul voor minstens één processtap (bv. ontvangst) de belangrijkste gevaren, wettelijke eisen en norm-eisen in.",
+        "Link elk kritisch gevaar aan minstens één procedure of werkinstructie die je vandaag al hebt.",
+        "Noteer de belangrijkste FAVV-elementen die op jouw site spelen (bv. traceerbaarheid, temperatuur, hygiëne) en link ze aan je HACCP-analyse.",
+        "Plan een korte toolbox (5–10 min) waarin je deze samenhang uitlegt aan je team, en registreer die in de Trainingsmodule."
+      ]
+    }
+  ];
+
+  /******** INTERNE KENNISBANK – HACCP, BVP, FAVV, IFS ********/
+
+  const KNOWLEDGE = [
+    // HACCP
+    {
+      id: "kb-haccp-principes",
+      title: "De 7 HACCP-principes – overzicht",
+      topic: "HACCP",
+      level: "Basis",
+      tags: ["principes", "overzicht"],
+      summary: "Een praktisch overzicht van de 7 HACCP-principes, met focus op logistiek.",
+      content: "De 7 HACCP-principes vormen de ruggengraat van elk voedselveiligheidssysteem: gevaren in kaart brengen, kritische controlepunten bepalen, grenswaarden vastleggen, monitoring organiseren, correctieve acties beschrijven, verificatie voorzien en alles documenteren. In een magazijn gaat de aandacht vooral naar temperatuurbeheersing, verpakkingintegriteit, allergenen en netheid."
+    },
+    {
+      id: "kb-haccp-logistiek-risico",
+      title: "Typische HACCP-risico’s in logistiek",
+      topic: "HACCP",
+      level: "Basis",
+      tags: ["risico", "logistiek"],
+      summary: "Welke gevaren kom je het meest tegen in warehouses en distributiecentra?",
+      content: "In logistiek en warehousing ontstaan risico’s vaak door verkeerde temperatuur, beschadigde verpakking, lange stilstand buiten de juiste zone, kruisbesmetting tussen allergenen en niet-allergenen, ongedierte, glas of metaal in zones, of verkeerd labelgebruik. Door deze punten bewust in je gevarenanalyse op te nemen, kun je ze gericht beheersen."
+    },
+
+    // BVP
+    {
+      id: "kb-bvp-magazijn",
+      title: "BVP’s voor magazijnhygiëne en housekeeping",
+      topic: "BVP",
+      level: "Basis",
+      tags: ["hygiëne", "housekeeping"],
+      summary: "Best practices om een proper en audit-proof magazijn te runnen.",
+      content: "Belangrijke BVP’s in een magazijn zijn: werken met zonering en duidelijke scheiding van vuile en propere zones, een visueel schoonmaakplan per zone, duidelijke afspraken over persoonlijke hygiëne en beschermkledij, systematische ongediertebestrijding, en het vermijden van glas en breekbaar materiaal in kritieke zones. Goede housekeeping verlaagt de kans op afwijkingen en maakt audits vlotter."
+    },
+    {
+      id: "kb-bvp-voorraadbeheer",
+      title: "BVP’s rond voorraadbeheer en FIFO/FEFO",
+      topic: "BVP",
+      level: "Gevorderd",
+      tags: ["FIFO", "FEFO"],
+      summary: "Hoe FIFO/FEFO en voorraadbeheer bijdragen aan voedselveiligheid.",
+      content: "Een goed voorraadbeheersysteem gebruikt FIFO of FEFO om oudere of kortere houdbaarheidsdata eerst uit te leveren. Belangrijk is dat lotnummers en houdbaarheidsdata correct in het WMS staan, dat fysieke en systeemvoorraad overeenkomen, en dat blokkades duidelijk zichtbaar zijn. Dit ondersteunt traceerbaarheid en vermindert het risico dat producten met verlopen THT worden uitgeleverd."
+    },
+
+    // FAVV
+    {
+      id: "kb-favv-traceerbaarheid",
+      title: "Traceerbaarheid volgens FAVV – basis",
+      topic: "FAVV",
+      level: "Basis",
+      tags: ["traceerbaarheid", "1-up/1-down"],
+      summary: "Wat verwacht FAVV van een logistiek bedrijf rond traceerbaarheid?",
+      content: "FAVV verwacht dat je op elk moment weet welke producten met welk lot, THT of batch van welke leverancier zijn ontvangen en naar welke klanten ze zijn uitgeleverd. Dit noemt men 1-up/1-down traceerbaarheid. In de praktijk betekent dit: goede registratie bij ontvangst, duidelijke koppeling tussen fysieke goederen en systemen, en de mogelijkheid om via een mock recall snel en volledig te traceren."
+    },
+    {
+      id: "kb-favv-hygiëne",
+      title: "FAVV – hygiëne en infrastructuur in magazijnen",
+      topic: "FAVV",
+      level: "Basis",
+      tags: ["hygiëne", "infrastructuur"],
+      summary: "Belangrijkste FAVV-punten rond hygiëne, ongedierte en omgeving.",
+      content: "FAVV verwacht dat de omgeving van het magazijn proper en onderhouden is, dat binnen de opslagruimtes materiaal en wanden reinigbaar zijn, dat er een werkend systeem voor ongediertecontrole is, en dat personeel voldoende hygiëne-instructies en voorzieningen heeft (handhygiëne, beschermkleding waar nodig). Deze basisvoorwaarden ondersteunen je HACCP-plan."
+    },
+
+    // IFS Logistics – SAMENVATTING NORMSTRUCTUUR
+    {
+      id: "kb-ifs-hoofdstukken",
+      title: "IFS Logistics – hoofdstukken en structuur (samenvatting)",
+      topic: "IFS",
+      level: "Basis",
+      tags: ["hoofdstukken", "structuur"],
+      summary: "Overzicht van de logische opbouw van de IFS Logistics-norm.",
+      content: "De IFS Logistics-norm is opgebouwd rond thema’s zoals: managementverantwoordelijkheid en beleid, kwaliteits- en voedselveiligheidsmanagementsysteem, resource management (personeel, infrastructuur, onderhoud), procesbeheer (ontvangst, opslag, transport, temperatuur, allergenen), meting, analyse en verbetering (interne audits, klachten, afwijkingen) en food defense. De norm beschrijft voor elk van deze blokken verwachtingen die je moet vertalen naar je processen en documenten."
+    },
+    {
+      id: "kb-ifs-haccp-eisen",
+      title: "IFS Logistics – eisen rond HACCP en risicoanalyse",
+      topic: "IFS",
+      level: "Gevorderd",
+      tags: ["HACCP", "risicoanalyse"],
+      summary: "Hoe IFS Logistics naar HACCP en risicoanalyse kijkt.",
+      content: "IFS Logistics vereist dat je een gestructureerd systeem hebt gebaseerd op HACCP-principes en risicoanalyse. Dat betekent: een team en verantwoordelijkheden vastleggen, een actuele beschrijving van processen en producten, gevarenanalyse volgens de HACCP-principes, identificatie van CCP’s indien van toepassing, duidelijke procedures en registraties voor beheersmaatregelen, en regelmatige verificatie. Daarnaast vraagt de norm ook aandacht voor food defense en frauderisico’s, afhankelijk van de activiteiten."
+    },
+    {
+      id: "kb-ifs-logistiek-voorbeelden",
+      title: "IFS Logistics in de praktijk – voorbeelden voor magazijn",
+      topic: "IFS",
+      level: "Basis",
+      tags: ["praktijk", "magazijn"],
+      summary: "Hoe je IFS Logistics vertaalt naar dagelijkse magazijnactiviteiten.",
+      content: "Praktische invulling van IFS Logistics in een magazijn kan zijn: duidelijke procedures voor ontvangstcontroles, temperatuurregistratie met alarmen, gedefinieerde criteria voor vrijgave of blokkade, opleidingsplannen voor medewerkers, systematische schoonmaak en ongediertebestrijding, gestructureerde klachten- en incidentenbehandeling, mock recalls en periodieke managementreviews. De norm vraagt niet iets ‘magisch’, maar wel een systematische en aantoonbare aanpak."
+    }
+  ];
+
+  /******** STATE ********/
+
+  let progress   = loadJson(STORAGE_PROGRESS, {});
+  let trainings  = loadJson(STORAGE_TRAINING, []);
+  let settings   = loadJson(STORAGE_SETTINGS, {
+    brandName: "FoodSafety Navigator",
+    brandSub : "HACCP · BVP · FAVV · IFS Logistics – praktijk & compliance",
+    apiKey   : "",
+    cx       : ""
+  });
+  let searchStat = loadJson(STORAGE_SEARCHSTAT, { count: 0, lastQuery: "" });
+
+  let activeLessonId = null;
+  let searchTopicFilter = "ALL";
+
+  /******** UTIL ********/
+
+  function normalize(str) {
+    return (str || "").toString().toLowerCase();
+  }
+
+  function getLessonProgress(id) {
+    return progress[id] || { doneSteps: [] };
+  }
+
+  function setLessonStep(id, index, done) {
+    const current = getLessonProgress(id);
+    const set = new Set(current.doneSteps);
+    if (done) set.add(index); else set.delete(index);
+    progress[id] = { doneSteps: Array.from(set) };
+    saveJson(STORAGE_PROGRESS, progress);
+    renderLessonList();
+    renderLessonDetail();
+    updateDashboard();
+    updateSidebarStats();
+  }
+
+  /******** NAVIGATION ********/
+
+  const viewElems    = document.querySelectorAll(".view");
+  const navButtons   = document.querySelectorAll(".nav-btn");
+  const sidebarStats = document.getElementById("sidebarStats");
+
+  function showView(id) {
+    viewElems.forEach(v => v.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+
+    navButtons.forEach(btn => {
+      if (btn.dataset.view === id) btn.classList.add("active");
+      else btn.classList.remove("active");
+    });
+
+    updateSidebarStats();
+  }
+
+  navButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const target = btn.dataset.view;
+      if (target) showView(target);
+    });
+  });
+
+  /******** HACCP-LEERPAD RENDER ********/
+
+  const lessonListEl   = document.getElementById("lessonList");
+  const lessonDetailEl = document.getElementById("lessonDetail");
+
+  function renderLessonList() {
+    lessonListEl.innerHTML = "";
+    LESSONS.forEach(lesson => {
+      const prog  = getLessonProgress(lesson.id);
+      const total = lesson.steps.length;
+      const done  = (prog.doneSteps || []).length;
+
+      let dotClass = "";
+      let label    = "Nog niet gestart";
+      if (done > 0 && done < total) {
+        dotClass = "partial";
+        label = `${done}/${total} stappen`;
+      } else if (done === total && total > 0) {
+        dotClass = "done";
+        label = "Volledig afgerond";
+      }
+
+      const div = document.createElement("article");
+      div.className = "lesson-card" + (lesson.id === activeLessonId ? " active" : "");
+      div.innerHTML = `
+        <div class="lesson-card-title">${lesson.title}</div>
+        <div class="lesson-card-meta">
+          <span class="tag topic">${lesson.topic}</span>
+          <span class="badge-level">${lesson.level}</span>
+          <span>${lesson.duration}</span>
+        </div>
+        <div class="lesson-card-meta">
+          <span class="progress-dot ${dotClass}"></span>
+          <span>${label}</span>
+        </div>
+      `;
+      div.addEventListener("click", () => {
+        activeLessonId = lesson.id;
+        renderLessonList();
+        renderLessonDetail();
+      });
+      lessonListEl.appendChild(div);
+    });
+  }
+
+  function renderLessonDetail() {
+    const lesson = LESSONS.find(l => l.id === activeLessonId);
+    if (!lesson) {
+      lessonDetailEl.innerHTML = `
+        <p class="muted">
+          Kies links een les. Je krijgt telkens eerst de theorie in gewone mensentaal, 
+          daarna concrete stappen die je kan afvinken.
+        </p>`;
+      return;
+    }
+
+    const prog    = getLessonProgress(lesson.id);
+    const doneSet = new Set(prog.doneSteps || []);
+
+    const stepsHtml = lesson.steps.map((step, idx) => `
+      <label class="step-check">
+        <input type="checkbox" data-step-index="${idx}" ${doneSet.has(idx) ? "checked" : ""}>
+        <span>${step}</span>
+      </label>
+    `).join("");
+
+    lessonDetailEl.innerHTML = `
+      <div class="section-title">${lesson.title}</div>
+      <div style="display:flex; flex-wrap:wrap; gap:0.35rem; margin-bottom:0.3rem;">
+        <span class="tag topic">${lesson.topic}</span>
+        <span class="badge-level">${lesson.level}</span>
+        <span class="tag">${lesson.duration}</span>
+      </div>
+
+      ${lesson.theoryHtml || ""}
+
+      <h4 style="margin:0.45rem 0 0.25rem; font-size:0.9rem;">Praktische toepassing</h4>
+      <p class="muted">${lesson.practiceIntro || ""}</p>
+      <div>${stepsHtml}</div>
+
+      <div style="display:flex; flex-wrap:wrap; gap:0.55rem; margin-top:0.4rem;">
+        <button class="btn" id="btnLessonDone">Markeer les als afgerond</button>
+        <button class="btn secondary" id="btnLessonSearch">Extra info opzoeken (optioneel)</button>
+      </div>
+    `;
+
+    lessonDetailEl.querySelectorAll("input[type='checkbox']").forEach(cb => {
+      cb.addEventListener("change", () => {
+        const idx = parseInt(cb.dataset.stepIndex, 10);
+        setLessonStep(lesson.id, idx, cb.checked);
+      });
+    });
+
+    const btnDone   = document.getElementById("btnLessonDone");
+    const btnSearch = document.getElementById("btnLessonSearch");
+
+    if (btnDone) {
+      btnDone.addEventListener("click", () => {
+        progress[lesson.id] = { doneSteps: lesson.steps.map((_, i) => i) };
+        saveJson(STORAGE_PROGRESS, progress);
+        renderLessonList();
+        renderLessonDetail();
+        updateDashboard();
+        updateSidebarStats();
+      });
+    }
+
+    if (btnSearch) {
+      btnSearch.addEventListener("click", () => {
+        const searchInput = document.getElementById("searchInput");
+        if (searchInput) {
+          searchInput.value = `${lesson.topic} ${lesson.title}`;
+        }
+        showView("view-search");
+      });
+    }
+  }
+
+  /******** SEARCH – INTERNAL ********/
+
+  const searchInputEl     = document.getElementById("searchInput");
+  const searchBtnEl       = document.getElementById("searchBtn");
+  const internalResultsEl = document.getElementById("internalResults");
+  const webResultsEl      = document.getElementById("webResults");
+  const searchStatusEl    = document.getElementById("searchStatus");
+  const searchMetaEl      = document.getElementById("searchMeta");
+  const topicChips        = document.querySelectorAll(".chip");
+
+  topicChips.forEach(chip => {
+    chip.addEventListener("click", () => {
+      topicChips.forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      searchTopicFilter = chip.dataset.topic || "ALL";
+      updateSearchMeta();
+      performSearch(false);
+    });
+  });
+
+  function updateSearchMeta() {
+    let label = "alle domeinen";
+    if (searchTopicFilter === "HACCP") label = "HACCP";
+    if (searchTopicFilter === "BVP")   label = "BVP / logistiek";
+    if (searchTopicFilter === "FAVV")  label = "FAVV / wetgeving";
+    if (searchTopicFilter === "IFS")   label = "IFS Logistics";
+    searchMetaEl.textContent = `Filter: ${label}`;
+  }
+
+  function filterKnowledge(keyword, topicFilter) {
+    const q = normalize(keyword);
+    return KNOWLEDGE.filter(item => {
+      if (topicFilter !== "ALL" && item.topic !== topicFilter) return false;
+      if (!q) return true;
+      const inTitle   = normalize(item.title).includes(q);
+      const inSummary = normalize(item.summary).includes(q);
+      const inContent = normalize(item.content).includes(q);
+      const inTags    = (item.tags || []).some(t => normalize(t).includes(q));
+      return inTitle || inSummary || inContent || inTags;
+    });
+  }
+
+  function renderInternal(list) {
+    if (!list.length) {
+      internalResultsEl.innerHTML = `<div class="empty">Geen treffers in de interne kennisbank.</div>`;
+      return;
+    }
+    internalResultsEl.innerHTML = list.map(item => `
+      <article class="result-card">
+        <div class="result-header">
+          <div class="result-title">${item.title}</div>
+          <span class="result-badge">${item.topic}</span>
+        </div>
+        <div class="muted" style="margin-bottom:0.15rem;">
+          <span class="badge-level">${item.level}</span>
+        </div>
+        <div class="result-snippet">${item.summary}</div>
+      </article>
+    `).join("");
+  }
+
+  /******** SEARCH – WEB VIA GOOGLE CSE ********/
+
+  async function fetchWebResults(query) {
+    const apiKey = settings.apiKey;
+    const cx     = settings.cx;
+
+    if (!apiKey || !cx) {
+      webResultsEl.innerHTML = `
+        <div class="empty">
+          Live webresultaten zijn niet geconfigureerd. 
+          Vul in <strong>Instellingen → Google Custom Search API</strong> een API-key en CSE-ID in.
+        </div>`;
+      return;
+    }
+
+    let q = query || "HACCP logistiek magazijn";
+    if (searchTopicFilter === "HACCP") {
+      q += " HACCP food safety logistics warehousing";
+    } else if (searchTopicFilter === "BVP") {
+      q += " warehouse best practices hygiene temperature";
+    } else if (searchTopicFilter === "FAVV") {
+      q += " site:favv-afsca.be traceerbaarheid temperatuur voedselveiligheid";
+    } else if (searchTopicFilter === "IFS") {
+      q += " \"IFS Logistics\" audit traceability";
+    }
+
+    const url = `https://www.googleapis.com/customsearch/v1?key=${encodeURIComponent(apiKey)}&cx=${encodeURIComponent(cx)}&q=${encodeURIComponent(q)}`;
+
+    webResultsEl.innerHTML = `<div class="empty">Webresultaten worden opgehaald…</div>`;
+    try {
+      const resp = await fetch(url);
+      if (!resp.ok) throw new Error("HTTP " + resp.status);
+      const data = await resp.json();
+      const items = data.items || [];
+      if (!items.length) {
+        webResultsEl.innerHTML = `<div class="empty">Geen webresultaten gevonden.</div>`;
+        return;
+      }
+
+      webResultsEl.innerHTML = items.map(item => `
+        <article class="result-card">
+          <div class="result-header">
+            <div class="result-title">
+              <a href="${item.link}" target="_blank" rel="noopener noreferrer">
+                ${item.title || "Resultaat"}
+              </a>
+            </div>
+            <span class="result-badge">Web</span>
+          </div>
+          <div class="result-url">${item.displayLink || ""}</div>
+          <div class="result-snippet">${item.snippet || ""}</div>
+        </article>
+      `).join("");
+    } catch (e) {
+      console.error(e);
+      webResultsEl.innerHTML = `<div class="error">Fout bij het ophalen van webresultaten. Controleer API-key, CSE-ID en internetverbinding.</div>`;
+    }
+  }
+
+  function performSearch(includeWeb = true) {
+    const keyword = (searchInputEl.value || "").trim();
+    const internal = filterKnowledge(keyword, searchTopicFilter);
+    renderInternal(internal);
+
+    searchStat.count += 1;
+    searchStat.lastQuery = keyword || "(leeg)";
+    saveJson(STORAGE_SEARCHSTAT, searchStat);
+
+    const countLabel = internal.length === 1
+      ? "1 intern resultaat"
+      : `${internal.length} interne resultaten`;
+
+    searchStatusEl.textContent = `Zoekopdracht uitgevoerd. ${countLabel}.`;
+
+    updateDashboard();
+    updateSidebarStats();
+
+    if (includeWeb) {
+      fetchWebResults(keyword);
+    }
+  }
+
+  if (searchBtnEl) {
+    searchBtnEl.addEventListener("click", () => performSearch(true));
+  }
+
+  if (searchInputEl) {
+    searchInputEl.addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        performSearch(true);
+      }
+    });
+  }
+
+  /******** TRAINING ********/
+
+  const trainingFormEl   = document.getElementById("trainingForm");
+  const trainingTableEl  = document.getElementById("trainingTable");
+  const btnExportTraining = document.getElementById("btnExportTraining");
+
+  function renderTrainingTable() {
+    if (!trainings.length) {
+      trainingTableEl.innerHTML = `<div class="empty">Nog geen registraties. Gebruik het formulier hierboven om een eerste training of toolbox te loggen.</div>`;
+      return;
+    }
+
+    const rows = trainings
+      .slice()
+      .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
+      .map(rec => {
+        const cls = rec.status === "afgerond" ? "done" : "open";
+        const lbl = rec.status === "afgerond" ? "Afgerond" : "Nog te vervolledigen";
+        return `
+          <tr>
+            <td>${rec.date || ""}</td>
+            <td>${rec.employee || ""}</td>
+            <td>${rec.topic || ""}</td>
+            <td>${rec.type || ""}</td>
+            <td>${rec.notes || ""}</td>
+            <td class="text-right">
+              <span class="pill-status ${cls}">${lbl}</span>
+            </td>
+          </tr>
+        `;
+      }).join("");
+
+    trainingTableEl.innerHTML = `
+      <div style="max-height:260px; overflow:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Datum</th>
+              <th>Medewerker</th>
+              <th>Domein</th>
+              <th>Type</th>
+              <th>Inhoud / bijzonderheden</th>
+              <th class="text-right">Status</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  if (trainingFormEl) {
+    trainingFormEl.addEventListener("submit", e => {
+      e.preventDefault();
+      const employee = document.getElementById("trEmployee").value.trim();
+      const topic    = document.getElementById("trTopic").value;
+      const date     = document.getElementById("trDate").value;
+      const type     = document.getElementById("trType").value.trim();
+      const notes    = document.getElementById("trNotes").value.trim();
+      const status   = document.getElementById("trStatus").value;
+
+      if (!employee || !topic || !date) {
+        alert("Vul minstens medewerker, domein en datum in.");
+        return;
+      }
+
+      trainings.push({
+        id: "TR-" + Date.now(),
+        employee, topic, date, type, notes, status
+      });
+      saveJson(STORAGE_TRAINING, trainings);
+      renderTrainingTable();
+      updateDashboard();
+      trainingFormEl.reset();
+    });
+  }
+
+  if (btnExportTraining) {
+    btnExportTraining.addEventListener("click", () => {
+      if (!trainings.length) {
+        alert("Er zijn nog geen registraties om te exporteren.");
+        return;
+      }
+      const blob = new Blob([JSON.stringify(trainings, null, 2)], { type: "application/json" });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement("a");
+      a.href = url;
+      a.download = "foodsafety_training_registrations.json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+  }
+
+  /******** SETTINGS & BRANDING ********/
+
+  const brandTitleEl    = document.getElementById("brandTitle");
+  const brandSubEl      = document.getElementById("brandSubtitle");
+  const setBrandNameEl  = document.getElementById("setBrandName");
+  const setBrandSubEl   = document.getElementById("setBrandSub");
+  const setApiKeyEl     = document.getElementById("setApiKey");
+  const setCxEl         = document.getElementById("setCx");
+  const btnSaveBrand    = document.getElementById("btnSaveBrand");
+  const btnSaveApi      = document.getElementById("btnSaveApi");
+  const btnClearAll     = document.getElementById("btnClearAll");
+
+  function applyBranding() {
+    brandTitleEl.textContent = settings.brandName || "FoodSafety Navigator";
+    brandSubEl.textContent   = settings.brandSub  || "HACCP · BVP · FAVV · IFS Logistics – praktijk & compliance";
+  }
+
+  function loadSettingsForm() {
+    setBrandNameEl.value = settings.brandName || "";
+    setBrandSubEl.value  = settings.brandSub  || "";
+    setApiKeyEl.value    = settings.apiKey   || "";
+    setCxEl.value        = settings.cx       || "";
+  }
+
+  if (btnSaveBrand) {
+    btnSaveBrand.addEventListener("click", () => {
+      settings.brandName = setBrandNameEl.value.trim() || "FoodSafety Navigator";
+      settings.brandSub  = setBrandSubEl.value.trim()  || "HACCP · BVP · FAVV · IFS Logistics – praktijk & compliance";
+      saveJson(STORAGE_SETTINGS, settings);
+      applyBranding();
+      alert("Branding opgeslagen.");
+    });
+  }
+
+  if (btnSaveApi) {
+    btnSaveApi.addEventListener("click", () => {
+      settings.apiKey = setApiKeyEl.value.trim();
+      settings.cx     = setCxEl.value.trim();
+      saveJson(STORAGE_SETTINGS, settings);
+      alert("API-instellingen opgeslagen. Webresultaten in de zoekmachine zijn nu actief.");
+    });
+  }
+
+  if (btnClearAll) {
+    btnClearAll.addEventListener("click", () => {
+      if (!confirm("Dit wist ALLE lokale data (voortgang, trainingen, instellingen). Doorgaan?")) return;
+      localStorage.removeItem(STORAGE_PROGRESS);
+      localStorage.removeItem(STORAGE_TRAINING);
+      localStorage.removeItem(STORAGE_SETTINGS);
+      localStorage.removeItem(STORAGE_SEARCHSTAT);
+      location.reload();
+    });
+  }
+
+  /******** DASHBOARD & SIDEBAR ********/
+
+  const dashLessonsEl  = document.getElementById("dashLessons");
+  const dashTrainingEl = document.getElementById("dashTraining");
+  const dashSearchEl   = document.getElementById("dashSearch");
+  const btnGotoLearn   = document.getElementById("btnGotoLearn");
+
+  if (btnGotoLearn) {
+    btnGotoLearn.addEventListener("click", () => showView("view-learn"));
+  }
+
+  function updateDashboard() {
+    const total = LESSONS.length;
+    let doneLessons = 0;
+    LESSONS.forEach(lesson => {
+      const prog = getLessonProgress(lesson.id);
+      if ((prog.doneSteps || []).length === lesson.steps.length && lesson.steps.length > 0) {
+        doneLessons++;
+      }
+    });
+    dashLessonsEl.textContent =
+      total ? `Je hebt ${doneLessons} van de ${total} HACCP-lessen volledig afgerond.` :
+              "Nog geen lessen geconfigureerd.";
+
+    if (!trainings.length) {
+      dashTrainingEl.textContent = "Nog geen trainingsregistraties.";
+    } else {
+      const last = trainings.slice().sort((a,b) => (b.date || "").localeCompare(a.date || ""))[0];
+      const statusLabel = last.status === "afgerond" ? "afgerond" : "nog open";
+      dashTrainingEl.textContent =
+        `Laatste registratie: ${last.employee} – ${last.topic} op ${last.date} (${statusLabel}).`;
+    }
+
+    if (!searchStat.count) {
+      dashSearchEl.textContent = "Nog geen zoekopdrachten uitgevoerd.";
+    } else {
+      dashSearchEl.textContent =
+        `${searchStat.count} zoekopdrachten uitgevoerd. Laatste term: “${searchStat.lastQuery}”.`;
+    }
+  }
+
+  function updateSidebarStats() {
+    const totalLessons = LESSONS.length;
+    let doneLessons = 0;
+    LESSONS.forEach(lesson => {
+      const prog = getLessonProgress(lesson.id);
+      if ((prog.doneSteps || []).length === lesson.steps.length && lesson.steps.length > 0) {
+        doneLessons++;
+      }
+    });
+
+    const totalTrainings = trainings.length;
+    const searches       = searchStat.count || 0;
+
+    sidebarStats.innerHTML = `
+      <div><strong>${doneLessons}/${totalLessons}</strong> HACCP-lessen afgerond</div>
+      <div><strong>${totalTrainings}</strong> trainingsregistraties</div>
+      <div><strong>${searches}</strong> zoekopdrachten</div>
+    `;
+  }
+
+  /******** INIT ********/
+
+  function init() {
+    applyBranding();
+    loadSettingsForm();
+    renderLessonList();
+    renderLessonDetail();
+    renderTrainingTable();
+    updateDashboard();
+    updateSidebarStats();
+    updateSearchMeta();
+  }
+
+  init();
+</script>
+</body>
+</html>
